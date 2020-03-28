@@ -32,7 +32,7 @@ modelo_seir = function (valores_iniciales, valores_estado, parametros)
       tasa_contag = beta/gamma
       # resultados 
       results = c (dS, dE, dI, dR)
-      list (results)
+      list (results,tasa_contag)
     }
   )
 }
@@ -182,6 +182,30 @@ autoplot(cbind(simuld*N),
   theme(legend.position = "top")
 
 
+
+#Grafico 15 dias de tasa de contagio
+
+startna <- ts(rep(NA,26), start = c(2020,62))
+esc1 <- ts(output1[1:15,5],freq = 365, start = c(2020,62))
+esc2 <- ts(output2[1:15,5],freq = 365, start = c(2020,62))
+esc3 <- ts(output3[1:15,5],freq = 365, start = c(2020,62))
+esc4 <- ts(output4[1:15,5],freq = 365, start = c(2020,62))
+
+simulc <- ts(cbind(esc1,esc2,esc3,esc4),
+             freq = 365, start=c(2020,62 ))
+
+
+autoplot(cbind(simulc),
+         xlab = "Días desde la medida",
+         ylab = "Infectados")+
+  ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
+          subtitle = "Simulaciones Modelo SEIR")+
+  geom_point()+
+  #labs(caption = "Datos de los Boletines de Salud Pública")+
+  scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
+                      values = c("black","red","green", "blue"))+
+  theme_bw()+
+  theme(legend.position = "top")
 
 
 
