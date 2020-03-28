@@ -150,7 +150,7 @@ autoplot(cbind(simulc),
          ylab = "Infectados")+
   ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
           subtitle = "Simulaciones Modelo SEIR")+
-  geom_point()+
+  geom_point(size =2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
                       values = c("black","red","green", "blue"))+
@@ -174,7 +174,7 @@ autoplot(cbind(simuld*N),
          ylab = "Infectados")+
   ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
           subtitle = "Simulaciones Modelo SEIR")+
-  geom_point()+
+  geom_point(size = 2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
                       values = c("black","red","green", "blue"))+
@@ -200,7 +200,7 @@ autoplot(cbind(simulc),
          ylab = "Infectados")+
   ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Tasa de Reproducción del Covid-19",
           subtitle = "Simulaciones Modelo SEIR")+
-  geom_point()+
+  geom_point(size = 2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
                       values = c("black","red","green", "blue"))+
