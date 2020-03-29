@@ -56,55 +56,57 @@ tiempo_disc = seq (0, 300, by=1)
 #Simulaciones de Politica
 
 #Distrito Nacional
+beta_dn <-  .85
+
 ## Valores Iniciales: Datos al dia 26
 
-W = 965040  # suceptibles_0
-X = 422           # Expuestos_0
-Y = 638           # Infectados_0
-Z = 158           # Recuperados_0
+W = 965040-398    # suceptibles_0
+X = 875           # Expuestos_0
+Y = 398           # Infectados_0
+Z = 116           # Recuperados_0
 
 N = W + X + Y + Z #Poblacion
-N = 10000000
 
 valores_ini = c (S = W/N, E = X/N, I = Y/N, R = Z/N)
 
 
 alpha0 = 0
-parametros = c (alpha0 = alpha0, beta0 = beta_value, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+parametros = c (alpha0 = alpha0, beta0 = beta_dn, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
 output1 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
 
 alpha0 = 0.4
-parametros = c (alpha0 = alpha0, beta0 = beta_value, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+parametros = c (alpha0 = alpha0, beta0 = beta_dn, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
 output2 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
 
 
 alpha0 = 0.6
-parametros = c (alpha0 = alpha0, beta0 = beta_value, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+parametros = c (alpha0 = alpha0, beta0 = beta_dn, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
 output3 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
 
 
 alpha0 = 0.8
-parametros = c (alpha0 = alpha0, beta0 = beta_value, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+parametros = c (alpha0 = alpha0, beta0 = beta_dn, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
 output4 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
 
 
 #Grafico 15 dias
-#data <- ts(data, freq = 365, start = c(2020, 62), end = c(2020, 102))
-startna <- ts(rep(NA,29), start = c(2020,62))
-esc1 <- ts(c(data,output1[1:15,4]*N),freq = 365, start = c(2020,62))
-esc2 <- ts(c(startna,output2[1:15,4]*N),freq = 365, start = c(2020,62))
-esc3 <- ts(c(startna,output3[1:15,4]*N),freq = 365, start = c(2020,62))
-esc4 <- ts(c(startna,output4[1:15,4]*N),freq = 365, start = c(2020,62))
+d_dn <- d[,2]
+#d_dn <-  window(cbind(d_dn),start=c(2020,80))
+startna <- ts(rep(NA,28), start = c(2020,80))
+esc1 <- ts(c(d_dn,output1[1:15,4]*N),freq = 365, start = c(2020,80))
+esc2 <- ts(c(startna,output2[1:15,4]*N),freq = 365, start = c(2020,80))
+esc3 <- ts(c(startna,output3[1:15,4]*N),freq = 365, start = c(2020,80))
+esc4 <- ts(c(startna,output4[1:15,4]*N),freq = 365, start = c(2020,80))
 
-simulc <- ts(cbind(esc1,esc2,esc3,esc4),
-             freq = 365, start=c(2020,62 ))
+s_dn <- ts(cbind(esc1,esc2,esc3,esc4),
+             freq = 365, start=c(2020,80 ))
 
 
-autoplot(cbind(simulc),
+autoplot(cbind(s_dn),
          xlab = "Días desde la medida",
          ylab = "Infectados")+
   ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
-          subtitle = "Simulaciones Modelo SEIR")+
+          subtitle = "Simulaciones Modelo SEIR, Distrito Nacional")+
   geom_point(size =2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
@@ -112,24 +114,60 @@ autoplot(cbind(simulc),
   theme_bw()+
   theme(legend.position = "top")
 
-#Grafico 90 dias
+############################################################################
+#Duarte
+beta_du <-  .58
 
-startna <- ts(rep(NA,26), start = c(2020,62))
-esc1 <- ts(c(data,output1[1:90,4]*N),freq = 365, start = c(2020,62))
-esc2 <- ts(c(startna,output2[1:90,4]*N),freq = 365, start = c(2020,62))
-esc3 <- ts(c(startna,output3[1:90,4]*N),freq = 365, start = c(2020,62))
-esc4 <- ts(c(startna,output4[1:90,4]*N),freq = 365, start = c(2020,62))
+## Valores Iniciales: Datos al dia 26
 
-simuld <- ts(cbind(esc1,esc2,esc3,esc4),
-             freq = 365, start=c(2020,62 ))
+W = 289574-79    # suceptibles_0
+X = 140          # Expuestos_0
+Y = 79           # Infectados_0
+Z = 31           # Recuperados_0
+
+N = W + X + Y + Z #Poblacion
+
+valores_ini = c (S = W/N, E = X/N, I = Y/N, R = Z/N)
 
 
-autoplot(cbind(simuld*N),
+alpha0 = 0
+parametros = c (alpha0 = alpha0, beta0 = beta_du, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output1 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+alpha0 = 0.4
+parametros = c (alpha0 = alpha0, beta0 = beta_du, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output2 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+alpha0 = 0.6
+parametros = c (alpha0 = alpha0, beta0 = beta_du, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output3 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+alpha0 = 0.8
+parametros = c (alpha0 = alpha0, beta0 = beta_du, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output4 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+#Grafico 15 dias
+d_du <- d[,3]
+#d_dn <-  window(cbind(d_dn),start=c(2020,80))
+startna <- ts(rep(NA,28), start = c(2020,80))
+esc1 <- ts(c(d_du,output1[1:15,4]*N),freq = 365, start = c(2020,80))
+esc2 <- ts(c(startna,output2[1:15,4]*N),freq = 365, start = c(2020,80))
+esc3 <- ts(c(startna,output3[1:15,4]*N),freq = 365, start = c(2020,80))
+esc4 <- ts(c(startna,output4[1:15,4]*N),freq = 365, start = c(2020,80))
+
+s_du <- ts(cbind(esc1,esc2,esc3,esc4),
+           freq = 365, start=c(2020,80 ))
+
+
+autoplot(cbind(s_du),
          xlab = "Días desde la medida",
          ylab = "Infectados")+
   ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
-          subtitle = "Simulaciones Modelo SEIR")+
-  geom_point(size = 2)+
+          subtitle = "Simulaciones Modelo SEIR, Duarte")+
+  geom_point(size =2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
                       values = c("black","red","green", "blue"))+
@@ -138,29 +176,66 @@ autoplot(cbind(simuld*N),
 
 
 
-#Grafico 15 dias de tasa de contagio
+############################################################################
+#Resto Pais
+beta_re <-  .58
 
-startna <- ts(rep(NA,26), start = c(2020,62))
-esc1 <- ts(output1[1:90,6],freq = 365, start = c(2020,62))
-esc2 <- ts(output2[1:90,6],freq = 365, start = c(2020,62))
-esc3 <- ts(output3[1:90,6],freq = 365, start = c(2020,62))
-esc4 <- ts(output4[1:90,6],freq = 365, start = c(2020,62))
+## Valores Iniciales: Datos al dia 26
 
-simulc <- ts(cbind(esc1,esc2,esc3,esc4),
-             freq = 365, start=c(2020,62 ))
+W = 8190667    # suceptibles_0
+X = 422          # Expuestos_0
+Y = 638           # Infectados_0
+Z = 31           # Recuperados_0
+
+N = W + X + Y + Z #Poblacion
+
+valores_ini = c (S = W/N, E = X/N, I = Y/N, R = Z/N)
 
 
-autoplot(cbind(simulc),
+alpha0 = 0
+parametros = c (alpha0 = alpha0, beta0 = beta_re, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output1 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+alpha0 = 0.4
+parametros = c (alpha0 = alpha0, beta0 = beta_re, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output2 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+alpha0 = 0.6
+parametros = c (alpha0 = alpha0, beta0 = beta_re, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output3 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+alpha0 = 0.8
+parametros = c (alpha0 = alpha0, beta0 = beta_re, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
+output4 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
+
+
+#Grafico 15 dias
+d_re <- d[,4]
+#d_dn <-  window(cbind(d_dn),start=c(2020,80))
+startna <- ts(rep(NA,28), start = c(2020,80))
+esc1 <- ts(c(d_re,output1[1:15,4]*N),freq = 365, start = c(2020,80))
+esc2 <- ts(c(startna,output2[1:15,4]*N),freq = 365, start = c(2020,80))
+esc3 <- ts(c(startna,output3[1:15,4]*N),freq = 365, start = c(2020,80))
+esc4 <- ts(c(startna,output4[1:15,4]*N),freq = 365, start = c(2020,80))
+
+s_re <- ts(cbind(esc1,esc2,esc3,esc4),
+           freq = 365, start=c(2020,80 ))
+
+
+autoplot(cbind(s_re),
          xlab = "Días desde la medida",
          ylab = "Infectados")+
-  ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Tasa de Reproducción del Covid-19",
-          subtitle = "Simulaciones Modelo SEIR")+
-  geom_point(size = 2)+
+  ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
+          subtitle = "Simulaciones Modelo SEIR, Resto Pais")+
+  geom_point(size =2)+
   #labs(caption = "Datos de los Boletines de Salud Pública")+
   scale_color_manual( name = "Medidas de Distanciamiento", label = c("Ninguna", "Suave", "Duras", "Extremas"), 
                       values = c("black","red","green", "blue"))+
   theme_bw()+
   theme(legend.position = "top")
 
-cbind(data,simul)
-
+## Guardando en Excel
+library(xlsx)
+write.csv(cbind(s_dn,s_du,s_re), "esc.csv")
