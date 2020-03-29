@@ -85,7 +85,7 @@ legend(40, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
 
 #Ajuste de los Casos Publicados por Salud Publica
 
-simul <- ts(output[1:26,3],frequency = 365, start = c(2020,62))
+simul <- ts(output[1:27,3],frequency = 365, start = c(2020,62))
 data  <- ts(read_excel("datos_salud_publica.xlsx"),freq =365, start = c(2020,62))
 
 autoplot(cbind(data,simul),
