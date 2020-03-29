@@ -54,7 +54,7 @@ tiempo_disc = seq (0, 300, by=1)
 ###----ANALISIS POR PROVINCIAS -----
 
 # Distrito Nacional
-  beta_dn <-  .72
+  beta_dn <-  .85
   p_dn = c (alpha0 = alpha0, beta0 = beta_dn, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
   #p_dn = c (beta = beta_dn, gamma = gamma_value)
   W_dn = 965040 -1  # suceptibles_0
@@ -70,7 +70,7 @@ tiempo_disc = seq (0, 300, by=1)
   o_dn <- as.data.frame(o_dn*N_dn) 
 
   #Ajuste de los Casos Publicados por Salud Publica
-  s_dn <- ts(o_dn[1:28,3],freq = 365, start = c(2020,62))
+  s_dn <- ts(o_dn[1:28,4],freq = 365, start = c(2020,62))
   d_dn <- d[,2]
 
   data_dn <-  window(cbind(d_dn,s_dn),start=c(2020,80))
@@ -86,7 +86,7 @@ tiempo_disc = seq (0, 300, by=1)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Santo Domingo
-  beta_sd <-  0.535
+  beta_sd <-  0.61
   p_sd = c (alpha0 = alpha0, beta0 = beta_sd, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
   W_sd = 2374370 -1  # suceptibles_0
   X_sd = 0           # Expuestos_0
@@ -101,7 +101,7 @@ tiempo_disc = seq (0, 300, by=1)
   o_sd <- as.data.frame(o_sd*N_sd) 
   
   #Ajuste de los Casos Publicados por Salud Publica
-  s_sd <- ts(o_sd[1:28,3],freq = 365, start = c(2020,62))
+  s_sd <- ts(o_sd[1:28,4],freq = 365, start = c(2020,62))
   d_sd <- d[,33]
   
   data_sd <- window(cbind(d_sd,s_sd),start=c(2020,80))
@@ -117,11 +117,11 @@ tiempo_disc = seq (0, 300, by=1)
   
   #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Duarte
-  beta_du <-  0.8
+  beta_du <-  0.58
   p_du = c (alpha0 = alpha0, beta0 = beta_du, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
-  W_du = 289574 -0.1  # suceptibles_0
+  W_du = 289574 -1  # suceptibles_0
   X_du = 0           # Expuestos_0
-  Y_du = 0.1         # Infectados_0
+  Y_du = 1         # Infectados_0
   Z_du = 0           # Recuperados_0
   N_du = W_du + X_du + Y_du + Z_du #Poblacion
   
@@ -132,7 +132,7 @@ tiempo_disc = seq (0, 300, by=1)
   o_du <- as.data.frame(o_du*N_du) 
   
   #Ajuste de los Casos Publicados por Salud Publica
-  s_du <- ts(o_du[1:28,3],freq = 365, start = c(2020,62))
+  s_du <- ts(o_du[1:28,4],freq = 365, start = c(2020,62))
   d_du <- d[,7]
   
   data_du <- window(cbind(d_du,s_du),start=c(2020,80))
@@ -148,7 +148,7 @@ tiempo_disc = seq (0, 300, by=1)
   
   #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   # Santiago
-  beta_st <-  0.54
+  beta_st <-  0.62
   p_st = c (alpha0 = alpha0, beta0 = beta_st, kappa0 = kappa0, gamma = gamma_value, delta = delta_value)
   W_st = 963422 -1  # suceptibles_0
   X_st = 0           # Expuestos_0
@@ -163,7 +163,7 @@ tiempo_disc = seq (0, 300, by=1)
   o_st <- as.data.frame(o_st*N_st) 
   
   #Ajuste de los Casos Publicados por Salud Publica
-  s_st <- ts(o_st[1:28,3],freq = 365, start = c(2020,62))
+  s_st <- ts(o_st[1:28,4],freq = 365, start = c(2020,62))
   d_st <- d[,26]
   
   data_st <- window(cbind(d_st,s_st),start=c(2020,80))
@@ -176,6 +176,7 @@ tiempo_disc = seq (0, 300, by=1)
     scale_color_manual( name = element_blank(), label = c("Datos", "Modelo"), values = c("blue", "red"))+
     theme_bw()+
     geom_point()
+  
   
   
   
