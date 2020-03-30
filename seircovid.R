@@ -138,7 +138,7 @@ h +
 
 W = 9999200  # suceptibles_0
 X = 422           # Expuestos_0
-Y = 638           # Infectados_0
+Y = 859           # Infectados_0
 Z = 158           # Recuperados_0
 
 N = W + X + Y + Z #Poblacion
