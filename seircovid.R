@@ -40,7 +40,7 @@ modelo_seir = function (valores_iniciales, valores_estado, parametros)
 #Parametros Calibrados
 period_laten = 14            # periodo latente
 period_incu = 7             # periodo incubacion del virus 
-beta_value =.856    #0.905
+beta_value =.83    #0.905
 beta_value_low = beta_value -0.05
 beta_value_high = beta_value +0.05
 gamma_value = 1 / period_laten
@@ -99,9 +99,9 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
 
 #Ajuste de los Casos Publicados por Salud Publica
 
-simul <- ts(output[1:29,3],frequency = 365, start = c(2020,62))
-simul_low <- ts(output_low[1:29,3], freq= 365, start =c(2020,62))
-simul_high <- ts(output_high[1:29,3], freq= 365, start =c(2020,62))
+simul <- ts(output[1:31,3],frequency = 365, start = c(2020,62))
+simul_low <- ts(output_low[1:31,3], freq= 365, start =c(2020,62))
+simul_high <- ts(output_high[1:31,3], freq= 365, start =c(2020,62))
 data  <- ts(read_excel("datos_salud_publica.xlsx"),freq =365, start = c(2020,62))
 
 cbind(data, simul)
@@ -137,9 +137,9 @@ h +
 ## Valores Iniciales: Datos al dia 26
 
 W = 9999200  # suceptibles_0
-X = 422           # Expuestos_0
-Y = 859           # Infectados_0
-Z = 158           # Recuperados_0
+X = 0           # Expuestos_0
+Y = 1109           # Infectados_0
+Z = 0           # Recuperados_0
 
 N = W + X + Y + Z #Poblacion
 N = 10000000
@@ -168,7 +168,7 @@ output4 = ode(valores_ini, tiempo_disc, modelo_seir, parametros)
 
 #Grafico 15 dias
 #data <- ts(data, freq = 365, start = c(2020, 62), end = c(2020, 102))
-startna <- ts(rep(NA,29), start = c(2020,62))
+startna <- ts(rep(NA,31), start = c(2020,62))
 esc1 <- ts(c(data,output1[1:15,4]*N),freq = 365, start = c(2020,62))
 esc2 <- ts(c(startna,output2[1:15,4]*N),freq = 365, start = c(2020,62))
 esc3 <- ts(c(startna,output3[1:15,4]*N),freq = 365, start = c(2020,62))

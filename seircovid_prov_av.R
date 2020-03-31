@@ -42,6 +42,11 @@ modelo_seir = function (valores_iniciales, valores_estado, parametros)
   R_ST = valores_estado [19]        # recuperados
   R_RE = valores_estado [20]        # recuperados
   
+  S    = valores_estado [21]
+  E    = valores_estado [22]
+  I    = valores_estado [23]
+  R    = valores_estado [24]
+  
   with ( 
     as.list (parametros), 
     {
@@ -76,11 +81,17 @@ modelo_seir = function (valores_iniciales, valores_estado, parametros)
       dR_ST = (gamma * I_ST)
       dR_RE = (gamma * I_RE)
       
+      dS = dS_DN + dS_DU + dS_SD + dS_ST + dS_RE
+      dE = dE_DN + dE_DU + dE_SD + dE_ST + dE_RE
+      dI = dI_DN + dI_DU + dI_SD + dI_ST + dI_RE
+      dR = dR_DN + dR_DU + dR_SD + dR_ST + dR_RE
+      
       # resultados 
       results = c (dS_DN, dS_DU, dS_SD, dS_ST, dS_RE,
                    dE_DN, dE_DU, dE_SD, dE_ST, dE_RE, 
                    dI_DN, dI_DU, dI_SD, dI_ST, dI_RE, 
-                   dR_DN, dR_DU, dR_SD, dR_ST, dR_RE)
+                   dR_DN, dR_DU, dR_SD, dR_ST, dR_RE,
+                   dS, dE, dI, dR)
       list (results)
     }
   )
@@ -156,7 +167,8 @@ N <- N_DN + N_DU + N_SD + N_ST + N_RE
 valor_ini <- c(S_DN = W_DN/N_DN, S_DU = W_DU/N_DU, S_SD = W_SD/N_SD, S_ST = W_ST/N_ST, S_RE = W_RE/N_RE,
                E_DN = X_DN/N_DN, E_DU = X_DU/N_DU, E_SD = X_SD/N_SD, E_ST = X_ST/N_ST, E_RE = X_RE/N_RE,
                I_DN = Y_DN/N_DN, I_DU = Y_DU/N_DU, I_SD = Y_SD/N_SD, I_ST = Y_ST/N_ST, I_RE = Y_RE/N_RE,
-               R_DN = Z_DN/N_DN, R_DU = Z_DU/N_DU, R_SD = Z_SD/N_SD, R_ST = Z_ST/N_ST, R_RE = Z_RE/N_RE)
+               R_DN = Z_DN/N_DN, R_DU = Z_DU/N_DU, R_SD = Z_SD/N_SD, R_ST = Z_ST/N_ST, R_RE = Z_RE/N_RE, 
+               S = W/N, E = X/N, I = Y/N, R = Z/N)
 
 #valor_ini <- c(S_DN = W_DN/N, S_DU = W_DU/N, S_SD = W_SD/N, S_ST = W_ST/N, S_RE = W_RE/N,
 #               E_DN = X_DN/N, E_DU = X_DU/N, E_SD = X_SD/N, E_ST = X_ST/N, E_RE = X_RE/N,
@@ -170,7 +182,7 @@ o  <- as.data.frame(o)
 o$time <- NULL
 st  <- ts(o, freq = 365, start = c(2020,62))
          
-#Graficando
+
 
 #----------------
 #Distrito Nacional
@@ -183,7 +195,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_dn <- ts(st[1:28,11]*N_DN,freq = 365, start = c(2020,62))
+s_dn <- ts(st[1:29,11]*N_DN,freq = 365, start = c(2020,62))
 d_dn <- d[,2]
 
 data_dn <-  window(cbind(d_dn,s_dn),start=c(2020,80))
@@ -210,7 +222,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_du <- ts(st[1:28,12]*N_DU,freq = 365, start = c(2020,62))
+s_du <- ts(st[1:29,12]*N_DU,freq = 365, start = c(2020,62))
 d_du <- d[,3]
 
 data_du <-  window(cbind(d_du,s_du),start=c(2020,80))
@@ -236,7 +248,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_sd <- ts(st[1:28,13]*N_SD,freq = 365, start = c(2020,62))
+s_sd <- ts(st[1:29,13]*N_SD,freq = 365, start = c(2020,62))
 d_sd <- d[,4]
 
 data_sd <-  window(cbind(d_sd,s_sd),start=c(2020,80))
@@ -262,7 +274,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_st <- ts(st[1:28,14]*N_ST,freq = 365, start = c(2020,62))
+s_st <- ts(st[1:29,14]*N_ST,freq = 365, start = c(2020,62))
 d_st <- d[,5]
 
 data_st <-  window(cbind(d_st,s_st),start=c(2020,80))
@@ -287,7 +299,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_re <- ts(st[1:28,15]*N_RE,freq = 365, start = c(2020,62))
+s_re <- ts(st[1:29,15]*N_RE,freq = 365, start = c(2020,62))
 d_re <- d[,6]
 
 data_re <-  window(cbind(d_re,s_re),start=c(2020,80))
@@ -301,12 +313,143 @@ data_re %>% autoplot(xlab = "Dias",
   theme_bw()+
   geom_point()
 
+#Graficando
+#--------------
+#Pais
+#-------------
+
+#Ajuste de los Casos Publicados por Salud Publica
+s <- s_dn+s_du+s_re+s_sd+s_st
+d_ <- d[,1]
+
+data_ <-  window(cbind(d_,s),start=c(2020,80))
+
+data_ %>% autoplot(xlab = "Dias",
+                   ylab = "Infectados")+
+  ggtitle(label = "Evolución de los Casos de Infectados",
+          subtitle = "Desempeño del Modelo")+
+  labs(caption = "Datos de los Boletines de Salud Pública")+
+  scale_color_manual( name = element_blank(), label = c("Datos", "Modelo"), values = c("blue", "red"))+
+  theme_bw()+
+  geom_point()
+
+
+
 ## Analisis de las politicas
+#Suceptibles
+W_DN <- 965040
+W_DU <- 289574
+W_SD <- 2374370
+W_ST <- 963422
+W_RE <- 4852875
+W    <- W_DN + W_DU + W_SD + W_ST + W_RE
+#Expuestps
+X_DN <- 0
+X_DU <- 0
+X_SD <- 0
+X_ST <- 0
+X_RE <- 0
+X    <- X_DN + X_DU + X_SD + X_ST + X_RE 
+#Infectados
+Y_DN <- 381
+Y_DU <- 90
+Y_SD <- 106
+Y_ST <- 97
+Y_RE <- 227
+Y    <- Y_DN + Y_DU + Y_SD + Y_ST + Y_RE
+#Recuperados
+Z_DN <- 0
+Z_DU <- 0
+Z_SD <- 0
+Z_ST <- 0
+Z_RE <- 0
+Z   <- Z_DN + Z_DU + Z_SD + Z_ST +Z_RE
+#Poblaciones
+N_DN <- W_DN + X_DN + Y_DN + Z_DN
+N_DU <- W_DU + X_DU + Y_DU + Z_DU
+N_SD <- W_SD + X_SD + Y_SD + Z_SD
+N_ST <- W_ST + X_ST + Y_ST + Z_ST
+N_RE <- W_RE + X_RE + Y_RE + Z_RE 
+N <- N_DN + N_DU + N_SD + N_ST + N_RE
 
-### Escenario 1: Cuarentena 
+valor_ini <- c(S_DN = W_DN/N_DN, S_DU = W_DU/N_DU, S_SD = W_SD/N_SD, S_ST = W_ST/N_ST, S_RE = W_RE/N_RE,
+               E_DN = X_DN/N_DN, E_DU = X_DU/N_DU, E_SD = X_SD/N_SD, E_ST = X_ST/N_ST, E_RE = X_RE/N_RE,
+               I_DN = Y_DN/N_DN, I_DU = Y_DU/N_DU, I_SD = Y_SD/N_SD, I_ST = Y_ST/N_ST, I_RE = Y_RE/N_RE,
+               R_DN = Z_DN/N_DN, R_DU = Z_DU/N_DU, R_SD = Z_SD/N_SD, R_ST = Z_ST/N_ST, R_RE = Z_RE/N_RE, 
+               S = W/N, E = X/N, I = Y/N, R = Z/N)
+
+
+### Escenario 1: Cuarentena total en DN y Duarte, y parcial resto del pais
+a0_dn  <- 0.8
+a0_du  <- 0.8
+a0_sd  <- 0.4
+a0_st  <- 0.4
+a0_re  <- 0.4
+
+p_e1 <- c(a0_dn = a0_dn, a0_du = a0_du, a0_sd = a0_sd, a0_st = a0_st, a0_re = a0_re,
+       b0_dn = b0_dn, b0_du = b0_du, b0_sd = b0_sd, b0_st = b0_st, b0_re = b0_re,
+       k0_dn = k0_dn, k0_du = k0_du, k0_sd = k0_sd, k0_st = k0_st, k0_re = k0_re,
+       gamma = gamma_value, delta = delta_value)
+
+oe1  <-  ode(valor_ini, tiempo_disc, modelo_seir, p_e1)
+oe1  <- as.data.frame(oe1)
+oe1$time <- NULL
+
+st_e1  <- ts(oe1, freq = 365, start = c(2020,62))
+
+s_dn_e1 <- ts(st_e1[1:15,11]*N_DN,freq = 365, start = c(2020,62))
+s_du_e1 <- ts(st_e1[1:15,12]*N_DU,freq = 365, start = c(2020,62))
+s_sd_e1 <- ts(st_e1[1:15,13]*N_SD,freq = 365, start = c(2020,62))
+s_st_e1 <- ts(st_e1[1:15,14]*N_ST,freq = 365, start = c(2020,62))
+s_re_e1 <- ts(st_e1[1:15,15]*N_RE,freq = 365, start = c(2020,62))
+s_e1 <- s_dn_e1 + s_du_e1 + s_re_e1 + s_sd_e1 + s_st_e1
 
 
 
+### Escenario 2: Cuarentena todo el pais
+
+a0_dn  <- 0.8
+a0_du  <- 0.8
+a0_sd  <- 0.8
+a0_st  <- 0.8
+a0_re  <- 0.8
+
+p_e2 <- c(a0_dn = a0_dn, a0_du = a0_du, a0_sd = a0_sd, a0_st = a0_st, a0_re = a0_re,
+          b0_dn = b0_dn, b0_du = b0_du, b0_sd = b0_sd, b0_st = b0_st, b0_re = b0_re,
+          k0_dn = k0_dn, k0_du = k0_du, k0_sd = k0_sd, k0_st = k0_st, k0_re = k0_re,
+          gamma = gamma_value, delta = delta_value)
+
+oe2  <-  ode(valor_ini, tiempo_disc, modelo_seir, p_e2)
+oe2  <- as.data.frame(oe2)
+oe2$time <- NULL
+st_e2  <- ts(oe2, freq = 365, start = c(2020,62))
+
+s_dn_e2 <- ts(st_e2[1:15,11]*N_DN,freq = 365, start = c(2020,62))
+s_du_e2 <- ts(st_e2[1:15,12]*N_DU,freq = 365, start = c(2020,62))
+s_sd_e2 <- ts(st_e2[1:15,13]*N_SD,freq = 365, start = c(2020,62))
+s_st_e2 <- ts(st_e2[1:15,14]*N_ST,freq = 365, start = c(2020,62))
+s_re_e2 <- ts(st_e2[1:15,15]*N_RE,freq = 365, start = c(2020,62))
+s_e2 <- s_dn_e2 + s_du_e2 + s_re_e2 + s_sd_e2 + s_st_e2
 
 
+
+### Graficando
+
+data  <- ts(read_excel("datos_salud_publica.xlsx"),freq =365, start = c(2020,62))
+startna <- ts(rep(NA,12), start = c(2020,62))
+esc1 <- ts(c(d[18:29,1],s_e1[1:15]),freq = 365, start = c(2020,62))
+esc2 <- ts(c(startna,s_e2[1:15]),freq = 365, start = c(2020,62))
+
+
+autoplot(cbind(esc1,esc2),
+         xlab = "Días desde la medida",
+         ylab = "Infectados")+
+  ggtitle(label = "Impacto de las Medidas de Movibilidad sobre Dinámica de los Infectados",
+          subtitle = "Simulaciones Modelo SEIR")+
+  geom_point(size =1)+
+  #labs(caption = "Datos de los Boletines de Salud Pública")+
+  scale_color_manual( name = "Medidas de Distanciamiento", label = c("Escenario 1", "Escenario 2"), 
+                      values = c("black","red","green", "blue"))+
+  theme_bw()+
+  theme(legend.position = "top")
 
