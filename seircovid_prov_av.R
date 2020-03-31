@@ -195,7 +195,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_dn <- ts(st[1:29,11]*N_DN,freq = 365, start = c(2020,62))
+s_dn <- ts(st[1:30,11]*N_DN,freq = 365, start = c(2020,62))
 d_dn <- d[,2]
 
 data_dn <-  window(cbind(d_dn,s_dn),start=c(2020,80))
@@ -222,7 +222,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_du <- ts(st[1:29,12]*N_DU,freq = 365, start = c(2020,62))
+s_du <- ts(st[1:30,12]*N_DU,freq = 365, start = c(2020,62))
 d_du <- d[,3]
 
 data_du <-  window(cbind(d_du,s_du),start=c(2020,80))
@@ -248,7 +248,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_sd <- ts(st[1:29,13]*N_SD,freq = 365, start = c(2020,62))
+s_sd <- ts(st[1:30,13]*N_SD,freq = 365, start = c(2020,62))
 d_sd <- d[,4]
 
 data_sd <-  window(cbind(d_sd,s_sd),start=c(2020,80))
@@ -274,7 +274,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_st <- ts(st[1:29,14]*N_ST,freq = 365, start = c(2020,62))
+s_st <- ts(st[1:30,14]*N_ST,freq = 365, start = c(2020,62))
 d_st <- d[,5]
 
 data_st <-  window(cbind(d_st,s_st),start=c(2020,80))
@@ -299,7 +299,7 @@ legend(100, 0.7, c("Susceptibles", "Expuestos", "Infectados", "Recuperados"),
        pch = 1, col = 2:4, bty = "n", cex = 1)
 
 #Ajuste de los Casos Publicados por Salud Publica
-s_re <- ts(st[1:29,15]*N_RE,freq = 365, start = c(2020,62))
+s_re <- ts(st[1:30,15]*N_RE,freq = 365, start = c(2020,62))
 d_re <- d[,6]
 
 data_re <-  window(cbind(d_re,s_re),start=c(2020,80))
@@ -351,11 +351,11 @@ X_ST <- 0
 X_RE <- 0
 X    <- X_DN + X_DU + X_SD + X_ST + X_RE 
 #Infectados
-Y_DN <- 381
-Y_DU <- 90
-Y_SD <- 106
-Y_ST <- 97
-Y_RE <- 227
+Y_DN <- 462
+Y_DU <- 94
+Y_SD <- 145
+Y_ST <- 122
+Y_RE <- 286
 Y    <- Y_DN + Y_DU + Y_SD + Y_ST + Y_RE
 #Recuperados
 Z_DN <- 0
@@ -435,9 +435,9 @@ s_e2 <- s_dn_e2 + s_du_e2 + s_re_e2 + s_sd_e2 + s_st_e2
 
 ### Graficando
 
-data  <- ts(read_excel("datos_salud_publica.xlsx"),freq =365, start = c(2020,62))
-startna <- ts(rep(NA,12), start = c(2020,62))
-esc1 <- ts(c(d[18:29,1],s_e1[1:15]),freq = 365, start = c(2020,62))
+#data  <- ts(read_excel("datos_salud_publica.xlsx"),freq =365, start = c(2020,62))
+startna <- ts(rep(NA,13), start = c(2020,62))
+esc1 <- ts(c(d[18:30,1],s_e1[1:15]),freq = 365, start = c(2020,62))
 esc2 <- ts(c(startna,s_e2[1:15]),freq = 365, start = c(2020,62))
 
 
